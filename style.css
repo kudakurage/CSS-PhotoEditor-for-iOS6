@@ -364,7 +364,7 @@ input[type='range']::-webkit-slider-thumb {
 
 #slider output {
   position:absolute;
-  top:18px;
+  top:19px;
   right:6px;
   color:#fff;
   font-size:8px;
@@ -372,6 +372,7 @@ input[type='range']::-webkit-slider-thumb {
   font-weight:bold;
 }
 #slider output span {
+  margin-right:2px;
   font-size:12px;
 }
 #slider > div {
@@ -542,6 +543,7 @@ input[type='range']::-webkit-slider-thumb {
   padding:12px 13px;
   color:#555;
   font-size:18px;
+  text-shadow:0 2px 0 #fff;
   background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f0f0f0));
   background: linear-gradient(top, #fff #f0f0f0);
   background: -webkit-linear-gradient(top, #fff #f0f0f0);
@@ -565,10 +567,9 @@ input[type='range']::-webkit-slider-thumb {
   content:"right";
   float:right;
   color:#999;
-  line-height:1.4;
+  line-height:1.8;
   font-size:100%;
   font-family: 'LigatureSymbols';
-  text-shadow:0 2px 0 #fff;
   -webkit-text-rendering: optimizeLegibility;
   -moz-text-rendering: optimizeLegibility;
   -ms-text-rendering: optimizeLegibility;
@@ -585,6 +586,31 @@ input[type='range']::-webkit-slider-thumb {
   -o-font-feature-settings: "liga" 1, "dlig" 1;
   font-feature-settings: "liga" 1, "dlig" 1;
 }
+#info-body li a:before {
+  content:" ";
+  margin-right:0.5em;
+  font-size:135%;
+  font-family: 'LigatureSymbols';
+  -webkit-text-rendering: optimizeLegibility;
+  -moz-text-rendering: optimizeLegibility;
+  -ms-text-rendering: optimizeLegibility;
+  -o-text-rendering: optimizeLegibility;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -ms-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  -webkit-font-feature-settings: "liga" 1, "dlig" 1;
+  -moz-font-feature-settings: "liga=1, dlig=1";
+  -ms-font-feature-settings: "liga" 1, "dlig" 1;
+  -o-font-feature-settings: "liga" 1, "dlig" 1;
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+#info-body li .blog:before {content:'';}
+#info-body li .twitter:before {content:'';}
+#info-body li .dribbble:before {content:'';}
+#info-body li .github:before {content:'';}
 #info-body footer {
   margin:20px 0 10px;
   color:rgba(0,0,0,0.4);
@@ -619,6 +645,7 @@ input[type='range']::-webkit-slider-thumb {
   }
   #disabled {
     display:none;
+    -webkit-box-pack:center;
   }
   #info-body {
     -webkit-box-orient:vertical;
