@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>CSS PhotoEditor for iOS6 - kudakurage</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+  <meta name="Description" content="It's time again for a new version of iOS for iPhone and iPad and a bunch of news about mobile web development." />
+  <meta name="Keywords"  content="iOS6,safari,iphone,ipad" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
+  <link rel="apple-touch-startup-image" href="startup-graphic.png" />
+  <link rel="apple-touch-startup-image" href="startup-graphic@2x.png" media="min-device-pixel-ratio: 2" />
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.upload.js"></script>
+  <script type="text/javascript" src="photoeditor.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <div id="display">
+    <div id="body">
+      <div id="photo"><img src="images/sample.png"></div>
+      <a href="#refresh" id="refresh">refresh</a>
+      <a href="#info" id="info">info</a>
+      <div id="footer">
+        <menu>
+          <li><a href="#upload" id="upload">Photo</a><input type="file" name="image" id="upload-input"></li>
+          <li><a href="#saturate" id="saturate">Saturate</a></li>
+          <li><a href="#brightness" id="brightness">Brightness</a></li>
+          <li><a href="#contrast" id="contrast">Contrast</a></li>
+          <li><a href="#huerotate" id="huerotate">HueRotate</a></li>
+          <li><a href="#invert" id="invert">Invert</a></li>
+          <li><a href="#blur" id="blur">Blur</a></li>
+          <li><a href="#sepia" id="sepia">Sepia</a></li>
+          <li><a href="#grayscale" id="grayscale">Grayscale</a></li>
+          <li><a href="#opacity" id="opacity">Opacity</a></li>
+        </menu>
+      </div>
+      <div id="slider">
+        <div id="saturate-slider"><input type="range" name="saturate" min="0" max="300" value="100"><output class="value"><span>100</span>%</output></div>
+        <div id="brightness-slider"><input type="range" name="brightness" min="-100" max="100" value="0"><output class="value"><span>0</span>%</output></div>
+        <div id="contrast-slider"><input type="range" name="contrast" min="0" max="200" value="100"><output class="value"><span>100</span>%</output></div>
+        <div id="huerotate-slider"><input type="range" name="huerotate" min="-180" max="180" value="0"><output class="value"><span>0</span>deg</output></div>
+        <div id="invert-slider"><input type="range" name="invert" min="0" max="100" value="0"><output class="value"><span>0</span>%</output></div>
+        <div id="blur-slider"><input type="range" name="blur" min="0" max="30" value="0"><output class="value"><span>0</span>px</output></div>
+        <div id="sepia-slider"><input type="range" name="sepia" min="0" max="100" value="0"><output class="value"><span>0</span>%</output></div>
+        <div id="grayscale-slider"><input type="range" name="grayscale" min="0" max="100" value="0"><output class="value"><span>0</span>%</output></div>
+        <div id="opacity-slider"><input type="range" name="opacity" min="0" max="100" value="100"><output class="value"><span>100</span>%</output></div>
+      </div>
+    </div>
+    <div id="disabled"><img src="images/loading.gif"></div>
+    <div id="info-body">
+      <header>
+        <h1>CSS PhotoEditor</h1>
+        <a href="#back" class="right-button" id="back">Back</a>
+      </header>
+      <div class="body">
+        <div>
+          <h2>About This</h2>
+          <p>
+            CSS PhotoEditor is a test site for new features that will be installed in iOS6.<br />
+            This site has actually tried CSS Filters and Input[type="file"].
+          </p>
+          <p>IF you want to learn more, you may read <a href="http://d.hatena.ne.jp/kudakurage/">my blog entry</a>.</p>
+        </div>
+        <div>
+          <h2>Creator Profile</h2>
+          <img src="images/profile.png" class="profile-image">
+          <p class="profile-name">Kazuyuki Motoyama<span>(Kudakurage)</span></p>
+          <p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p>
+          <ul>
+            <li><a href="http://d.hatena.ne.jp/kudakurage/" class="blog">Blog</a></li>
+            <li><a href="https://www.facebook.com/kudakurage" class="facebook">Facebook</a></li>
+            <li><a href="https://twitter.com/kudakurage" class="twitter">Twitter</a></li>
+            <li><a href="http://dribbble.com/kudakurage" class="dribbble">Dribbble</a></li>
+          </ul>
+        </div>
+        <footer>Copyright &copy; 2012 kazuyuki motoyama</footer>
+      </div>
+    </div>
+  </div>
+  <img src="images/iphone.png" id="iphone">
+</div>
+</body>
+</html>
