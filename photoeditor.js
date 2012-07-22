@@ -1,7 +1,8 @@
 
 ///////////////////////////////////////////////////////// Init
 var pe = {
-  footerScroll: 0
+  footerScroll: 0,
+  checkStyleContent: false
 };
 pe.menuOffsetArray = {
   'saturate':109,
@@ -46,8 +47,8 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
 $(function(){
   
   if(!pe.mobile){
-    $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone">');
-    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.</p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Ligature Symbols</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
+  $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
+  $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Ligature Symbols</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
     pe.startViewWrapper = setTimeout(function(){
       $('#wrapper').removeClass('start');
     }, 600);
@@ -114,6 +115,19 @@ $(function(){
   //StartView
   pe.startView = setTimeout(function(){
     pe.menuSelected($('#saturate'));
+    pe.startView1 = setTimeout(function(){
+      pe.startView2 = setInterval(function(){
+        var val = $('#saturate-slider input').attr('value');
+        val = parseInt(val)+2;
+        if(val >= 148){
+          clearInterval(pe.startView2);
+        }
+        $('#saturate-slider input').attr('value',val);
+        pe.filterValueArray['saturate'] = val;
+        $('#saturate-slider output span').text(val);
+        pe.setFilter();
+      }, 0);
+    }, 600);
   }, 1600);
 });
 
@@ -134,11 +148,9 @@ pe.sliderBlur = function(e){
   pe.sliderReset(e);
   $('#slider').fadeOut(300);
 };
-
 pe.setFilter = function(){
   $('#photo img').attr('style','-webkit-filter:saturate('+ pe.filterValueArray["saturate"] +'%) brightness('+ pe.filterValueArray["brightness"] +'%) contrast('+ pe.filterValueArray["contrast"] +'%) hue-rotate('+ pe.filterValueArray["huerotate"] +'deg) invert('+ pe.filterValueArray["invert"] +'%) blur('+ pe.filterValueArray["blur"] +'px) sepia('+ pe.filterValueArray["sepia"] +'%) grayscale('+ pe.filterValueArray["grayscale"] +'%) opacity('+ pe.filterValueArray["opacity"] +'%)');
 }
-
 pe.resetFilter = function(){
   for(key in pe.filterInitArray){
     $('#'+key+'-slider input').attr('value',pe.filterInitArray[key]);
@@ -147,4 +159,19 @@ pe.resetFilter = function(){
   }
   pe.setFilter();
 }
+pe.checkStyle = function(){
+  if(pe.checkStyleContent){
+    pe.checkStyleContent.remove();
+    pe.checkStyleContent = false;
+  }else{
+    pe.checkStyleContent = $('<div/>').attr('id','check-style-content').html('<h2>-webkit-filter:</h2><p>saturate(<span>'+ pe.filterValueArray["saturate"] +'%</span>)</p><p>brightness(<span>'+ pe.filterValueArray["brightness"] +'%</span>)</p><p>contrast(<span>'+ pe.filterValueArray["contrast"] +'%</span>)</p><p>hue-rotate(<span>'+ pe.filterValueArray["huerotate"] +'deg</span>)</p><p>invert(<span>'+ pe.filterValueArray["invert"] +'%</span>)</p><p>blur(<span>'+ pe.filterValueArray["blur"] +'px</span>)</p><p>sepia(<span>'+ pe.filterValueArray["sepia"] +'%</span>)</p><p>grayscale(<span>'+ pe.filterValueArray["grayscale"] +'%</span>)</p><p>opacity(<span>'+ pe.filterValueArray["opacity"] +'%</span>)</p>');
+    pe.checkStyleContent.click(function(){
+      pe.checkStyle();
+    });
+    $('#wrapper').append(pe.checkStyleContent);
+  }
+  return false;
+}
+
+
 
