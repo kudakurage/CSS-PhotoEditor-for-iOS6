@@ -44,6 +44,15 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
 
 ///////////////////////////////////////////////////////// Bind Evnet
 $(function(){
+  
+  if(!pe.mobile){
+    $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone">');
+    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.</p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Ligature Symbols</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
+    pe.startViewWrapper = setTimeout(function(){
+      $('#wrapper').removeClass('start');
+    }, 600);
+  }
+  
   $('#footer a').click(function(){
     pe.sliderReset(this);
     pe.menuSelected(this);
@@ -102,6 +111,10 @@ $(function(){
     }, 'json');
   });
   
+  //StartView
+  pe.startView = setTimeout(function(){
+    pe.menuSelected($('#saturate'));
+  }, 1600);
 });
 
 ///////////////////////////////////////////////////////// Function
