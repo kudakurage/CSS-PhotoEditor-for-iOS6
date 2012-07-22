@@ -126,6 +126,13 @@ a {
   -o-box-shadow:0 2px 10px rgba(0,0,0,0.7);
   box-shadow:0 2px 10px rgba(0,0,0,0.7);
 }
+#photo img.animate {
+  -webkit-transition:0.6s;
+  -moz-transition:0.6s;
+  -ms-transition:0.6s;
+  -o-transition:0.6s;
+  transition:0.6s;
+}
 #disabled {
   display:none;
   position:absolute;
@@ -162,6 +169,10 @@ a {
   color:#fff;
   text-indent:-10000px;
   z-index:3;
+}
+.webapp #refresh,
+.webapp #info {
+  top:25px;
 }
 #refresh {
   left:10px;
@@ -634,7 +645,7 @@ input[type='range']::-webkit-slider-thumb:active {
 /* ******************************** PC ******************************** */
 #pc {
   position:absolute;
-  top:85px;
+  top:80px;
   left:0;
   width:380px;
   color:#fff;
@@ -682,7 +693,7 @@ input[type='range']::-webkit-slider-thumb:active {
   margin-top:60px;
   border:1px solid #111;
   padding:23px;
-  opacity:0.5;
+  opacity:0.4;
   -webkit-border-radius:10px;
   -moz-border-radius:10px;
   -ms-border-radius:10px;
@@ -884,19 +895,19 @@ input[type='range']::-webkit-slider-thumb:active {
   transition:0s;
 }
 #pc {
-  -webkit-transition:0.3s 0.3s;
-  -moz-transition:0.3s 0.3s;
-  -ms-transition:0.3s 0.3s;
-  -o-transition:0.3s 0.3s;
-  transition:0.3s 0.3s;
+  -webkit-transition:0.3s 0.2s;
+  -moz-transition:0.3s 0.2s;
+  -ms-transition:0.3s 0.2s;
+  -o-transition:0.3s 0.2s;
+  transition:0.3s 0.2s;
 }
 #wrapper.start #pc {
   opacity:0;
-  -webkit-transform:translateX(200px);
-  -moz-transform:translateX(200px);
-  -ms-transform:translateX(200px);
-  -o-transform:translateX(200px);
-  transform:translateX(200px);
+  -webkit-transform:translateX(160px);
+  -moz-transform:translateX(160px);
+  -ms-transform:translateX(160px);
+  -o-transform:translateX(160px);
+  transform:translateX(160px);
   -webkit-transition:0s;
   -moz-transition:0s;
   -ms-transition:0s;
@@ -944,10 +955,16 @@ input[type='range']::-webkit-slider-thumb:active {
   #info-body {
     -webkit-box-orient:vertical;
   }
+  .webapp #info-body header {
+    margin-top:20px;
+  }
   #info-body .body {
     width:100%;
     height:auto;
     -webkit-box-flex: 1;
+  }
+  .webapp #info-body .body {
+    padding-top:64px;
   }
   #footer, #slider {
     width:100%;
