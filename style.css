@@ -551,6 +551,17 @@ input[type='range']::-webkit-slider-thumb:active {
   -o-box-shadow:0 1px 0 #fff;
   box-shadow:0 1px 0 #fff;
 }
+#info-body h3 {
+  margin-bottom:5px;
+  font-size:16px;
+}
+#info-body h3 + p,
+#info-body h3 + p + p {
+  margin-top:5px;
+}
+#info-body p + h3 {
+  margin-top:20px;
+}
 #info-body .profile-image {
   float:left;
   width:50px;

@@ -160,28 +160,28 @@ pe.init = function(){
   if(!pe.mobile){
     $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
     $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Landscape Mode</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
-    $.get("images/sample.png", function(){
-      $('#wrapper').removeClass('start');
-      //StartView - start
-      pe.startView = setTimeout(function(){
-        pe.menuSelected($('#saturate'));
-        pe.startView1 = setTimeout(function(){
-          pe.startView2 = setInterval(function(){
-            var val = $('#saturate-slider input').attr('value');
-            val = parseInt(val)+2;
-            if(val >= 148){
-              clearInterval(pe.startView2);
-            }
-            $('#saturate-slider input').attr('value',val);
-            pe.filterValueArray['saturate'] = val;
-            $('#saturate-slider output span').text(val);
-            pe.setFilter();
-          }, 0);
-        }, 600);
-      }, 1000);
-      //StartView - end
-    });
   }
+  $.get("images/sample.png", function(){
+    $('#wrapper').removeClass('start');
+    //StartView - start
+    pe.startView = setTimeout(function(){
+      pe.menuSelected($('#saturate'));
+      pe.startView1 = setTimeout(function(){
+        pe.startView2 = setInterval(function(){
+          var val = $('#saturate-slider input').attr('value');
+          val = parseInt(val)+2;
+          if(val >= 148){
+            clearInterval(pe.startView2);
+          }
+          $('#saturate-slider input').attr('value',val);
+          pe.filterValueArray['saturate'] = val;
+          $('#saturate-slider output span').text(val);
+          pe.setFilter();
+        }, 0);
+      }, 600);
+    }, 1000);
+    //StartView - end
+  });
   pe.debugCheck();
 }
 
