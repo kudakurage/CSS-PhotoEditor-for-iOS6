@@ -60,8 +60,11 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
 $(function(){
   
   pe.debugCheck();
-  
+  if(pe.mobile){
+    $('body').addClass('mobile');
+  }
   if(window.navigator.standalone){
+    pe.webapp = true;
     $('body').addClass('webapp');
   }
   
@@ -69,11 +72,17 @@ $(function(){
   $(window).resize(function(){
     pe.switchOrientation();
     pe.checkMenuScroll();
+    if(pe.mobile){
+      $('#disabled').css({'display':'block', 'opacity':0});
+      var t = setTimeout(function(){
+        $('#disabled').css({'display':'none', 'opacity':1});
+      }, 0);
+    }
   });
   
   if(!pe.mobile){
     $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
-    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Ligature Symbols</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
+    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Landscape Mode</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
     $.get("images/iphone.png", function(){
       $('#wrapper').removeClass('start');
     });
@@ -163,8 +172,12 @@ pe.menuSelected = function(e){
     var bgPositionLeft = -320 + pe.menuOffsetArray[id] - pe.footerScrollLeft;
     $('#slider').css('backgroundPosition', bgPositionLeft + 'px 0');
   }else if(pe.orientation == 1){
-    var sliderPositionTop = -25 + pe.menuLandscapeOffsetArray[id] - pe.footerScrollTop;
-    console.log(sliderPositionTop+'=-25+'+pe.menuLandscapeOffsetArray[id]+'-'+pe.footerScrollTop);
+    if(pe.webapp){
+      var webappOffset = 20;
+    }else{
+      var webappOffset = 0;
+    }
+    var sliderPositionTop = -25 +  webappOffset + pe.menuLandscapeOffsetArray[id] - pe.footerScrollTop;
     $('#slider').css('top', sliderPositionTop + 'px');
   }
   $('#slider').attr('class',id);
@@ -212,18 +225,12 @@ pe.checkStyle = function(){
   return false;
 }
 pe.switchOrientation = function(){
-  if(pe.mobile){
-    pe.orientation = window.orientation;
+  pe.windowWidth = $('#display').width();
+  pe.windowHeight = $('#display').height();
+  if(pe.windowWidth > pe.windowHeight){
+    pe.orientation = 1;
   }else{
-    pe.windowWidth = $('#display').width();
-    pe.windowHeight = $('#display').height();
-    if(pe.windowWidth > pe.windowHeight){
-      console.log('test');
-      pe.orientation = 1;
-    }else{
-      console.log('test2');
-      pe.orientation = 0;
-    }
+    pe.orientation = 0;
   }
   if(pe.orientation == 0){
     $("body").addClass("portrait");
@@ -232,7 +239,6 @@ pe.switchOrientation = function(){
     $("body").addClass("landscape");
     $("body").removeClass("portrait");
   }
-//  if(pe.debug){pe.orientation = 1;$('body').addClass('landscape');}//debug
 }
 pe.debugCheck = function(){
   if(location.hash == '#dev' || location.hash == '#debug'){

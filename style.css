@@ -116,6 +116,7 @@ a {
   height:480px;
   margin-left:-340px;
   text-align:center;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 #photo img {
   display:block;
@@ -166,6 +167,11 @@ a {
 /* ******************************** Header ******************************** */
 #refresh, #info {
   position:absolute;
+  display:block;
+  width:30px;
+  height:30px;
+  padding:5px;
+  line-height:30px;
   top:5px;
   color:#fff;
   text-indent:-10000px;
@@ -176,17 +182,16 @@ a {
   top:25px;
 }
 #refresh {
-  left:10px;
+  left:5px;
 }
 #info {
-  right:38px;
+  right:5px;
 }
 #refresh:after,
 #info:after {
   position:absolute;
-  left:0px;
+  left:5px;
   font-size:40px;
-  line-height:1;
   text-indent:0px;
   opacity:0.5;
   text-shadow:0 0 8px rgba(0,0,0,0.8);
@@ -259,7 +264,8 @@ a {
   border-right:1px solid rgba(0,0,0,0.8);
   box-shadow:1px 0 0 rgba(255,255,255,0.3);
 }
-#footer menu li a {
+#footer menu li a,
+#footer menu li span {
   position:relative;
   display:block;
   width:64px;
@@ -277,7 +283,8 @@ a {
   background:rgba(255,255,255,0.15);
   color:#fff;
 }
-#footer menu li a:after {
+#footer menu li a:after,
+#footer menu li span:after {
   position:absolute;
   display:block;
   top:-1px;
@@ -402,6 +409,13 @@ input[type='range']::-webkit-slider-thumb:active {
 #slider output span {
   margin-right:2px;
   font-size:12px;
+}
+.mobile #slider output {
+  top:15px;
+  font-size:10px;
+}
+.mobile #slider output span {
+  font-size:15px;
 }
 #slider > div {
   display:none;
@@ -993,10 +1007,10 @@ input[type='range']::-webkit-slider-thumb:active {
 
 .landscape #refresh {
   top:auto;
-  bottom:25px;
+  bottom:5px;
 }
 .landscape #info {
-  left:10px;
+  left:5px;
   right:auto;
 }
 .landscape #footer {
@@ -1025,11 +1039,15 @@ input[type='range']::-webkit-slider-thumb:active {
   height:520px;
   margin:0;
 }
+.webapp.landscape #footer menu {
+  padding-top:20px;
+}
 .landscape #footer menu li {
   float: none;
   margin: 4px 1px 0 3px;
 }
-.landscape #footer menu li a {
+.landscape #footer menu li a,
+.landscape #footer menu li span {
   padding-top: 34px;
   padding-bottom:2px;
 }
