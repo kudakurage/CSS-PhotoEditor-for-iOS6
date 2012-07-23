@@ -4,6 +4,8 @@ var pe = {
   footerScrollLeft: 0,
   footerScrollTop: 0,
   orientation: 0,
+  dblTap: false,
+  captureModeStatus: false,
   checkStyleContent: false
 };
 pe.menuLandscapeOffsetArray = {
@@ -51,24 +53,12 @@ pe.filterValueArray = {
   'opacity':100
 };
 
-if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
-  pe.mobile = true;
-  document.title='PhotoEditor';
-}
 
 ///////////////////////////////////////////////////////// Bind Evnet
 $(function(){
   
-  pe.debugCheck();
-  if(pe.mobile){
-    $('body').addClass('mobile');
-  }
-  if(window.navigator.standalone){
-    pe.webapp = true;
-    $('body').addClass('webapp');
-  }
+  pe.init();
   
-  pe.switchOrientation();
   $(window).resize(function(){
     pe.switchOrientation();
     pe.checkMenuScroll();
@@ -79,14 +69,6 @@ $(function(){
       }, 0);
     }
   });
-  
-  if(!pe.mobile){
-    $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
-    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Landscape Mode</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
-    $.get("images/iphone.png", function(){
-      $('#wrapper').removeClass('start');
-    });
-  }
   
   $('#footer a').click(function(){
     pe.sliderReset(this);
@@ -128,6 +110,21 @@ $(function(){
     return false;
   });
   
+  $('#photo img').dblclick(function(){
+    pe.captureMode();
+  });
+  $('#photo img').bind('touchend',function(){
+    if(pe.dblTap){
+      pe.captureMode();
+      pe.dblTap = false;
+    }else{
+      pe.dblTap = true;
+    }
+    setTimeout(function(){
+      pe.dblTap = false;
+    },500);
+  });
+  
   $('input[type=file]').click(function(){
     pe.sliderBlur();
   });
@@ -144,27 +141,50 @@ $(function(){
       }
     }, 'json');
   });
-  
-  //StartView
-  pe.startView = setTimeout(function(){
-    pe.menuSelected($('#saturate'));
-    pe.startView1 = setTimeout(function(){
-      pe.startView2 = setInterval(function(){
-        var val = $('#saturate-slider input').attr('value');
-        val = parseInt(val)+2;
-        if(val >= 148){
-          clearInterval(pe.startView2);
-        }
-        $('#saturate-slider input').attr('value',val);
-        pe.filterValueArray['saturate'] = val;
-        $('#saturate-slider output span').text(val);
-        pe.setFilter();
-      }, 0);
-    }, 600);
-  }, 1000);
 });
 
 ///////////////////////////////////////////////////////// Function
+pe.init = function(){
+  if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+    pe.mobile = true;
+    document.title='PhotoEditor';
+  }
+  if(pe.mobile){
+    $('body').addClass('mobile');
+  }
+  if(window.navigator.standalone){
+    pe.webapp = true;
+    $('body').addClass('webapp');
+  }
+  pe.switchOrientation();
+  if(!pe.mobile){
+    $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
+    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Landscape Mode</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
+    $.get("images/sample.png", function(){
+      $('#wrapper').removeClass('start');
+      //StartView - start
+      pe.startView = setTimeout(function(){
+        pe.menuSelected($('#saturate'));
+        pe.startView1 = setTimeout(function(){
+          pe.startView2 = setInterval(function(){
+            var val = $('#saturate-slider input').attr('value');
+            val = parseInt(val)+2;
+            if(val >= 148){
+              clearInterval(pe.startView2);
+            }
+            $('#saturate-slider input').attr('value',val);
+            pe.filterValueArray['saturate'] = val;
+            $('#saturate-slider output span').text(val);
+            pe.setFilter();
+          }, 0);
+        }, 600);
+      }, 1000);
+      //StartView - end
+    });
+  }
+  pe.debugCheck();
+}
+
 pe.menuSelected = function(e){
   var id = $(e).attr('id');
   $(e).addClass('selected');
@@ -183,17 +203,21 @@ pe.menuSelected = function(e){
   $('#slider').attr('class',id);
   $('#slider').fadeIn(300);
 };
+
 pe.sliderReset = function(e){
   $('#footer a').removeClass('selected');
   $('#slider').attr('class','');
 };
+
 pe.sliderBlur = function(e){
   pe.sliderReset(e);
   $('#slider').fadeOut(300);
 };
+
 pe.setFilter = function(){
   $('#photo img').attr('style','-webkit-filter:saturate('+ pe.filterValueArray["saturate"] +'%) brightness('+ pe.filterValueArray["brightness"] +'%) contrast('+ pe.filterValueArray["contrast"] +'%) hue-rotate('+ pe.filterValueArray["huerotate"] +'deg) invert('+ pe.filterValueArray["invert"] +'%) blur('+ pe.filterValueArray["blur"] +'px) sepia('+ pe.filterValueArray["sepia"] +'%) grayscale('+ pe.filterValueArray["grayscale"] +'%) opacity('+ pe.filterValueArray["opacity"] +'%)');
 }
+
 pe.resetFilter = function(){
   for(key in pe.filterInitArray){
     $('#'+key+'-slider input').attr('value',pe.filterInitArray[key]);
@@ -206,11 +230,13 @@ pe.resetFilter = function(){
     $('#photo img').removeClass('animate');
   }, 1000);
 }
+
 pe.checkMenuScroll = function(){
   pe.sliderBlur();
   pe.footerScrollLeft = $('#footer').scrollLeft();
   pe.footerScrollTop = $('#footer').scrollTop();
 }
+
 pe.checkStyle = function(){
   if(pe.checkStyleContent){
     pe.checkStyleContent.remove();
@@ -224,6 +250,7 @@ pe.checkStyle = function(){
   }
   return false;
 }
+
 pe.switchOrientation = function(){
   pe.windowWidth = $('#display').width();
   pe.windowHeight = $('#display').height();
@@ -240,6 +267,36 @@ pe.switchOrientation = function(){
     $("body").removeClass("portrait");
   }
 }
+
+pe.captureMode = function(){
+  pe.photoWidth = $('#photo img')[0].naturalWidth;
+  pe.photoHeight = $('#photo img')[0].naturalHeight;
+  pe.photoDisplayWidth = $('#photo img').width();
+  pe.photoDisplayHeight = $('#photo img').height();
+  $('#photo img').addClass('animate');
+  var t = setTimeout(function(){
+    $('#photo img').removeClass('animate');
+  }, 1000);
+  if(pe.captureModeStatus){
+    $('#photo img').css('webkitTransform', 'scale(1)');
+    $('#refresh, #info, #footer').fadeIn(400);
+    pe.captureModeStatus = false;
+  }else{
+    if(pe.photoWidth > pe.windowWidth && pe.photoHeight > pe.windowHeight){
+      if(pe.photoWidth / pe.photoHeight > pe.windowWidth / pe.windowHeight){
+        var zoom = pe.windowHeight / pe.photoDisplayHeight;
+        $('#photo img').css('webkitTransform', 'scale('+zoom+')');
+      }else{
+        var zoom = pe.windowWidth / pe.photoDisplayWidth;
+        $('#photo img').css('webkitTransform', 'scale('+zoom+')');
+      }
+    }
+    pe.sliderBlur();
+    $('#refresh, #info, #footer').fadeOut(400);
+    pe.captureModeStatus = true;
+  }
+}
+
 pe.debugCheck = function(){
   if(location.hash == '#dev' || location.hash == '#debug'){
     pe.debug = true;
