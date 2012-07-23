@@ -138,6 +138,9 @@ $(function(){
       $('#disabled').hide();
       if(res.result){
         $('#photo img').attr('src', 'images/'+res.filename);
+        pe.resetFilter();
+      }else{
+        alert('Sorry, upload failed.');
       }
     }, 'json');
   });
