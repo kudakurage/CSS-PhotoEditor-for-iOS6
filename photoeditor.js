@@ -1,8 +1,21 @@
 
 ///////////////////////////////////////////////////////// Init
 var pe = {
-  footerScroll: 0,
+  footerScrollLeft: 0,
+  footerScrollTop: 0,
+  orientation: 0,
   checkStyleContent: false
+};
+pe.menuLandscapeOffsetArray = {
+  'saturate':80,
+  'brightness':132,
+  'contrast':184,
+  'huerotate':236,
+  'invert':288,
+  'blur':340,
+  'sepia':392,
+  'grayscale':444,
+  'opacity':496
 };
 pe.menuOffsetArray = {
   'saturate':109,
@@ -46,16 +59,24 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
 ///////////////////////////////////////////////////////// Bind Evnet
 $(function(){
   
+  pe.debugCheck();
+  
   if(window.navigator.standalone){
-    $('#wrapper').addClass('webapp');
+    $('body').addClass('webapp');
   }
   
+  pe.switchOrientation();
+  $(window).resize(function(){
+    pe.switchOrientation();
+    pe.checkMenuScroll();
+  });
+  
   if(!pe.mobile){
-  $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
-  $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Ligature Symbols</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
-    pe.startViewWrapper = setTimeout(function(){
+    $('#wrapper').addClass('start').append('<img src="images/iphone.png" id="iphone"><a href="#" onclick="pe.checkStyle();return false;" id="check-style-button">Check the style</a>');
+    $('#wrapper').append('<div id="pc"><img src="images/logo.png" id="pc-logo"><p id="pc-text">CSS PhotoEditor is a test site for new features that will be installed in iOS6.<span>The browsers supported this site are Chrome19, Safari6 & iOS6.</span></p><a href="#" onclick="alert(\'show video\');" id="video"><img src="images/video.png"><span>DEMO on iOS simulator</span></a><ul id="features"><li class="upload">Input type=file</li><li class="filter">CSS Filters</li><li class="slider">Custom Slider UI</li><li class="font">Ligature Symbols</li></ul><div class="profile"><a href="http://d.hatena.ne.jp/kudakurage/"><img src="images/profile.png" class="profile-image"></a><p class="profile-name">Kazuyuki Motoyama<span>Kudakurage</span></p><p class="profile-acount"><a href="https://twitter.com/kudakurage" class="twitter">twitter</a><a href="http://dribbble.com/kudakurage" class="dribbble">dribbble</a><a href="https://github.com/kudakurage" class="github">github</a></p><p class="profile-text">I have been working as a Web designer in Kyoto.<br />UI Design / App Design / Illustration / HTML5&CSS3 / Javascript / PHP</p><p class="copyright">Copyright &copy; 2012 kazuyuki motoyama</p></div></div>');
+    $.get("images/iphone.png", function(){
       $('#wrapper').removeClass('start');
-    }, 600);
+    });
   }
   
   $('#footer a').click(function(){
@@ -65,8 +86,7 @@ $(function(){
   });
   
   $('#footer').scroll(function(){
-    pe.sliderBlur();
-    pe.footerScroll = $(this).scrollLeft();
+    pe.checkMenuScroll();
   });
   
   $('#slider input[type="range"]').change(function(){
@@ -132,15 +152,21 @@ $(function(){
         pe.setFilter();
       }, 0);
     }, 600);
-  }, 1600);
+  }, 1000);
 });
 
 ///////////////////////////////////////////////////////// Function
 pe.menuSelected = function(e){
   var id = $(e).attr('id');
-  var bgPositionLeft = -320 + pe.menuOffsetArray[id] - pe.footerScroll;
   $(e).addClass('selected');
-  $('#slider').css('backgroundPosition', bgPositionLeft + 'px 0');
+  if(pe.orientation == 0){
+    var bgPositionLeft = -320 + pe.menuOffsetArray[id] - pe.footerScrollLeft;
+    $('#slider').css('backgroundPosition', bgPositionLeft + 'px 0');
+  }else if(pe.orientation == 1){
+    var sliderPositionTop = -25 + pe.menuLandscapeOffsetArray[id] - pe.footerScrollTop;
+    console.log(sliderPositionTop+'=-25+'+pe.menuLandscapeOffsetArray[id]+'-'+pe.footerScrollTop);
+    $('#slider').css('top', sliderPositionTop + 'px');
+  }
   $('#slider').attr('class',id);
   $('#slider').fadeIn(300);
 };
@@ -167,6 +193,11 @@ pe.resetFilter = function(){
     $('#photo img').removeClass('animate');
   }, 1000);
 }
+pe.checkMenuScroll = function(){
+  pe.sliderBlur();
+  pe.footerScrollLeft = $('#footer').scrollLeft();
+  pe.footerScrollTop = $('#footer').scrollTop();
+}
 pe.checkStyle = function(){
   if(pe.checkStyleContent){
     pe.checkStyleContent.remove();
@@ -180,6 +211,34 @@ pe.checkStyle = function(){
   }
   return false;
 }
-
-
+pe.switchOrientation = function(){
+  if(pe.mobile){
+    pe.orientation = window.orientation;
+  }else{
+    pe.windowWidth = $('#display').width();
+    pe.windowHeight = $('#display').height();
+    if(pe.windowWidth > pe.windowHeight){
+      console.log('test');
+      pe.orientation = 1;
+    }else{
+      console.log('test2');
+      pe.orientation = 0;
+    }
+  }
+  if(pe.orientation == 0){
+    $("body").addClass("portrait");
+    $("body").removeClass("landscape");
+  }else if(pe.orientation == 1){
+    $("body").addClass("landscape");
+    $("body").removeClass("portrait");
+  }
+//  if(pe.debug){pe.orientation = 1;$('body').addClass('landscape');}//debug
+}
+pe.debugCheck = function(){
+  if(location.hash == '#dev' || location.hash == '#debug'){
+    pe.debug = true;
+  }else{
+    pe.debug = false;
+  }
+}
 
