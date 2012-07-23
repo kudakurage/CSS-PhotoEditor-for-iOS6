@@ -248,7 +248,7 @@ a {
 #footer menu {
   width:680px;
   height:50px;
-  margin:0;
+  margin:0 auto;
 }
 #footer menu li {
   position:relative;
@@ -339,11 +339,11 @@ a {
   width:320px;
   height:60px;
   background:url(images/slider-bg.png) center 0;
-  -webkit-background-size:640px 60px;
-  -moz-background-size:640px 60px;
-  -o-background-size:640px 60px;
-  -ms-background-size:640px 60px;
-  background-size:640px 60px;
+  -webkit-background-size:940px 60px;
+  -moz-background-size:940px 60px;
+  -o-background-size:940px 60px;
+  -ms-background-size:940px 60px;
+  background-size:940px 60px;
 }
 .portrait #slider {
   top: auto !important;

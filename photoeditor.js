@@ -192,7 +192,8 @@ pe.menuSelected = function(e){
   var id = $(e).attr('id');
   $(e).addClass('selected');
   if(pe.orientation == 0){
-    var bgPositionLeft = -320 + pe.menuOffsetArray[id] - pe.footerScrollLeft;
+    var menuLeftMargin = parseInt($('#footer menu').css('marginLeft'));
+    var bgPositionLeft = -320 + menuLeftMargin + pe.menuOffsetArray[id] - pe.footerScrollLeft;
     $('#slider').css('backgroundPosition', bgPositionLeft + 'px 0');
   }else if(pe.orientation == 1){
     if(pe.webapp){
