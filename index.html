@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <title>CSS PhotoEditor for iOS6 - kudakurage</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-  <meta name="Description" content="It's time again for a new version of iOS for iPhone and iPad and a bunch of news about mobile web development." />
-  <meta name="Keywords"  content="iOS6,safari,iphone,ipad" />
+  <meta name="Description" content="CSS PhotoEditor is a test site for new features that will be installed in iOS 6." />
+  <meta name="Keywords"  content="iOS6,safari,iphone,ipad,css,filter" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -50,7 +50,7 @@
         <div id="opacity-slider"><input type="range" name="opacity" min="0" max="100" value="100"><output class="value"><span>100</span>%</output></div>
       </div>
     </div>
-    <div id="disabled"><img src="images/loading.gif"></div>
+    <div id="disabled"><div><img src="images/loading.gif"></div></div>
     <div id="info-body">
       <header>
         <h1>CSS PhotoEditor</h1>
@@ -64,6 +64,13 @@
             This site has actually tried CSS Filters and Input[type="file"].
           </p>
           <p>IF you want to learn more, you may read <a href="http://d.hatena.ne.jp/kudakurage/">my blog entry</a>.</p>
+        </div>
+        <div id="force-webapp-content">
+          <h2>WebApp Mode by Force</h2>
+          <p>
+            When you turn on this mode, you can switch to forcibly WebApp mode. This switch is not only appear at the time of the Overview mode.
+          </p>
+          <p class="function">Force WebApp Mode<a href="#" id="force-webapp">OFF</a></p>
         </div>
         <div>
           <h2>Features and Help</h2>
@@ -99,5 +106,18 @@
     </div><!-- #info-body -->
   </div><!-- #display -->
 </div><!-- #wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33534717-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </body>
 </html>
